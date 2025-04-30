@@ -1,0 +1,14 @@
+[build]
+  publish = "dist" # Directory to publish (Vite builds output to 'dist' by default)
+  command = "npm run build" # Command to build your project
+
+[dev]
+  command = "npm run dev" # Command to run your project in development mode
+  port = 3000 # Port for the development server
+
+# Optional: Redirects or Headers
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  force = true
