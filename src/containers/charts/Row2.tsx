@@ -22,6 +22,8 @@ import {
 
 // Define interfaces for type safety
 export interface CountryData {
+  capital:string;
+  flags:{png:string};
   continents: string;
   name: {
     common: string;
@@ -83,7 +85,7 @@ const Row2 = () => {
   return (
     <div className="w-full h-full p-6">
       <CardHeader>Country Comparison</CardHeader>
-      <div className="flex space-x-4 mb-4 justify-center">
+      <div className="flex flex-col gap-2 sm:flex-row space-x-4 mb-4 justify-center">
         <Select value={country1} onValueChange={setCountry1}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Select Country 1" />

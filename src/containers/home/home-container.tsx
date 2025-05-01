@@ -9,7 +9,7 @@ const HomeContainer = () => {
   return (
     <>
       {draftData && draftData?.length > 0 ? (
-        <DataTable columns={columnsCell as any} data={draftData} />
+        <DataTable columns={columnsCell} data={draftData} />
       ) : (
         <Loader />
       )}

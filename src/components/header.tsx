@@ -1,10 +1,10 @@
-import { useNavigate, useLocation } from "react-router";
+import { useNavigate } from "react-router";
 import { ModeToggle } from "./mode-toggle";
 import { Button } from "./ui/button";
 
 const header = () => {
   const router = useNavigate();
-  const pathname = useLocation();
+
   return (
     <header className="sticky text-gray-900 dark:text-white top-0 z-50 bg-white dark:bg-gray-800 shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -18,12 +18,20 @@ const header = () => {
             <Button
               className="text-gray-900 dark:text-white bg-white dark:bg-gray-800"
               onClick={() => {
-                pathname.pathname === "/dashboard"
-                  ? router("/")
-                  : router("/dashboard");
+              router("/")
+            
               }}
             >
-              {pathname.pathname === "/dashboard" ? "home" : "dashboard"}
+             home
+            </Button>
+            <Button
+              className="text-gray-900 dark:text-white bg-white dark:bg-gray-800"
+              onClick={() => {
+               
+                   router("/dashboard");
+              }}
+            >
+              dashboard
             </Button>
           </div>
         </div>

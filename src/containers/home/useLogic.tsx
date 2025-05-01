@@ -1,30 +1,25 @@
 
-import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { ArrowUpDown } from "lucide-react";
-import { ColumnCell, ColumnDef } from "@/lib/type";
-import { useLocation } from "react-router";
 import { useCountriesQuery } from "@/api/table-query";
+import { useEffect, useState } from "react";
+
+type Data =
+  | {
+      "Country Name": string;
+      Capital: string;
+      Population: string;
+      Area: number;
+      Flag: string;
+      id: number;
+    }[]
+  | undefined;
 
 export const useLogic = () => {
-  const router = useLocation();
-
-  const [draftData, setDraftData] = useState<ColumnCell>([]);
-  const { data } = useCountriesQuery({ enabled: router.pathname === "/" });
+  const [draftData, setDraftData] = useState<Data>([]);
+  const { data } = useCountriesQuery({enabled:true});
 
   const columnsCell = [
     {
-      header: (
-        { column: col }: { column: MyColumnDef } // Explicitly typing the function parameter
-      ) => (
-        <Button
-          variant="ghost"
-          onClick={() => col.toggleSorting(col.getIsSorted() === "asc")}
-        >
-          Country Name
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      ),
+      header: " Country Name",
       accessorKey: "Country Name",
     },
 
@@ -34,26 +29,14 @@ export const useLogic = () => {
     {
       header: "Flag",
       accessorKey: "Flag",
-      cell: ({ row }: any) => {
+      cell: ({ row }: { row: { getValue: (key: string) => string } }) => {
         return <img src={row.getValue("Flag")} width={40} height={30} />;
       },
     },
   ];
-  type MyColumnDef = ColumnDef<ColumnCell, string>; // Define your ColumnDef type
-interface CountryData {
-  name: {
-    common: string;
-  };
-  capital: string[];
-  population: number;
-  area: number;
-  flags: {
-    png: string;
-  };
-}
 
   useEffect(() => {
-    const newArr = data?.map((entry:CountryData, index:number) => {
+    const newArr = data?.map((entry,  index) => {
       return {
         "Country Name": entry.name.common,
         Capital: entry.capital?.[0],

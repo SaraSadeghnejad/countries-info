@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Column, ColumnDef, Header, flexRender } from "@tanstack/react-table";
-import {  useDrag, useDrop } from "react-dnd";
+import { useDrag, useDrop } from "react-dnd";
 
 import { cn } from "@/lib/utils";
 import { Ref } from "react";
@@ -108,28 +108,28 @@ const TableCaption = React.forwardRef<
 ));
 TableCaption.displayName = "TableCaption";
 
-interface DraggableColProps<T> {
+interface DraggableColProps<T, V> {
   col: Column<T>;
   header: Header<T, unknown>;
   columnOrder: {
     id: string;
     index: number;
   }[];
-  columns: ColumnDef<T>[];
-  setColumns: React.Dispatch<React.SetStateAction<ColumnDef<T>[]>>;
+  columns: ColumnDef<T, V>[];
+  setColumns: React.Dispatch<React.SetStateAction<ColumnDef<T, V>[]>>;
 }
 
-const DraggableCol = <T,>({
+const DraggableCol = <T, V>({
   col,
   header,
   columnOrder,
   columns: mutableColumns,
   setColumns: setMutableColumns,
-}: DraggableColProps<T>) => {
+}: DraggableColProps<T, V>) => {
   const reorderCol = (draggedColIndex: number, targetColIndex: number) => {
-    let newColumns = [...mutableColumns];
+    const newColumns = [...mutableColumns];
 
-    let draggedCol = newColumns.splice(draggedColIndex, 1)[0];
+    const draggedCol = newColumns.splice(draggedColIndex, 1)[0];
     newColumns.splice(targetColIndex, 0, draggedCol);
 
     setMutableColumns(newColumns);
@@ -137,8 +137,7 @@ const DraggableCol = <T,>({
 
   const [, dropRef] = useDrop({
     accept: "column",
-    drop: (draggedCol: Column<any>) => {
-
+    drop: (draggedCol: Column<T>) => {
       const draggedColIndex = columnOrder.filter(
         (x) => x.id === draggedCol.id
       )[0].index;
@@ -166,8 +165,14 @@ const DraggableCol = <T,>({
         width: header.getSize(),
       }}
     >
-      <div ref={dropRef as unknown as Ref<HTMLTableCellElement> | undefined } className="pl-0">
-        <div ref={dragRef as unknown as Ref<HTMLTableCellElement> | undefined} className="cursor-move">
+      <div
+        ref={dropRef as unknown as Ref<HTMLTableCellElement> | undefined}
+        className="pl-0"
+      >
+        <div
+          ref={dragRef as unknown as Ref<HTMLTableCellElement> | undefined}
+          className="cursor-move"
+        >
           {flexRender(header.column.columnDef.header, header.getContext())}
         </div>
       </div>

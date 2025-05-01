@@ -8,7 +8,7 @@ function Dashboard() {
 
 
   return (
-    <Card className="mx-10 p-6 mt-4">
+    <Card className="mx-5 p-6 mt-4">
       <Row2 />
       <Row1 />
       <Row3 />

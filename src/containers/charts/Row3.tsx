@@ -1,17 +1,13 @@
+
 import { useMemo } from "react";
 import { Card, CardHeader } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { format } from "d3-format";
 import { useCountriesQuery } from "@/api/table-query";
+import { CountryData } from "./Row2";
 
-// Define proper interfaces for type safety
-interface CountryData {
-  name: {
-    common: string;
-  };
-  population: number;
-  continents: string[];
-}
+
+
 
 interface ChartData {
   name: string;
@@ -70,7 +66,10 @@ const renderPieChart = (data: ChartData[], continent: string) => {
             ))}
           </Pie>
           <Tooltip
-            formatter={(value: number) => [numberFormat(value), "Population"]}
+            formatter={(value, name) => [
+              `${numberFormat(value as number)}`,
+              name,
+            ]}
           />
         </PieChart>
       </ResponsiveContainer>
@@ -79,7 +78,7 @@ const renderPieChart = (data: ChartData[], continent: string) => {
 };
 
 const Row3 = () => {
-  const { data } = useCountriesQuery({ enabled: true });
+  const { data } = useCountriesQuery({enabled:true});
 
   const continentData = useMemo(
     () => ({
